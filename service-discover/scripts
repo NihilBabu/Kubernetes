@@ -1,0 +1,3 @@
+for ((i=1;i<=10000;i++)); do   curl -s -D -  --header "Connection: keep-alive" "localhost:80" || less;  sleep .1s; done
+
+while true; do wget -q -O- http://frontend.default.svc.cluster.local; done

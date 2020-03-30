@@ -1,0 +1,36 @@
+apiVersion: getambassador.io/v1
+kind: Mapping
+metadata:
+  name: tour-ui
+spec:
+  prefix: /nginx
+  service: nginx
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        editor: vscode
+    spec:
+      containers:
+      - name: nginx
+        image: foo:v1

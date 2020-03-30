@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bar
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: bar
+  template:
+    metadata:
+      labels:
+        app: bar
+    spec:
+      containers:
+      - name: bar
+        image: bar:v2
+        env:
+          - name: PORT
+            value: "3000"
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "64Mi"
+          limits:
+            cpu: "500m"
+            memory: "128Mi" 
+        ports:
+        - containerPort: 3000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo
+spec:
+  selector:
+    matchLabels:
+      app: foo
+  template:
+    metadata:
+      labels:
+        app: foo
+    spec:
+      containers:
+      - name: foo
+        image: foo:v1
+        env:
+          - name: PORT
+            value: "3000"
+          - name: APIURL
+            value: bar
+          - name: APIPORT
+            value: "3000"
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "64Mi"
+          limits:
+            cpu: "500m"
+            memory: "128Mi" 
+        ports:
+        - containerPort: 3000
+      
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: bar
+spec:
+  selector:
+    app: bar
+  ports:
+  - port: 3000
+    targetPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo
+spec:
+  type: NodePort
+  selector:
+    app: foo
+  ports:
+  
+  - name: http
+    protocol: TCP
+    port: 3000
+    targetPort: 3000

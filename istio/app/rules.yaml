@@ -1,0 +1,82 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: middleware-route
+spec:
+  hosts:
+    - middleware
+  http:
+
+  - match:
+    - headers:
+        foo:
+          exact: bar
+    route:
+    - destination:
+        host: middleware
+        subnet: v2
+
+  - route:
+    - destination:
+        host: middleware
+        subset: v1
+      # weight: 90
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: middleware
+spec:
+  host: middleware
+  subsets:
+  - name: v1
+    labels:
+      version: prod
+  - name: v2
+    labels:
+      version: canary
+
+
+# apiVersion: networking.istio.io/v1alpha3
+# kind: DestinationRule
+# metadata:
+#   name: middleware-route
+#   namespace: default
+# spec:
+#     hosts: middleware
+#     subnets:
+#     - name: v1
+#       labels:
+#         version: canary
+#     - name: v2
+#       labels:
+#         version: prod
+
+# ---
+
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: middleware-route
+# spec:
+#   hosts:
+#   - middleware
+#   http:
+#   - name: middleware-virtual-service
+#   - match:
+#     - headers:
+#         end-user:
+#           exact: jason
+#     route:
+#     - destination:
+#         host: middleware
+#         subset: v1
+#   - route:
+#     - destination:
+#         host: middleware
+#         subset: v1
+#       weight: 90
+#     - destination:
+#         host: middleware
+#         subset: v2
+#       weight: 10

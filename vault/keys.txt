@@ -1,0 +1,14 @@
+Key 1: e05cf82c347449e58eae9fe93214c2312e6a53ca32578a8d7312c7216496548201
+Key 2: 57894c06d21f7c0c262fde02d41b7d88189c64186bd04315121ac7369b78bc7902
+Key 3: 772f399b94bc93228edc3857a88fd7546351e5fbb2aefd6de39114b4805f446703
+Key 4: 848cb8aa993e750411b3f78bf23b3112150f2fd654d49a6e068a0a8cc9124d0404
+Key 5: a42acd37df9d9a2ab94011de8eaf9bce6ec2ae358daa2416f701d90ed235b51a05
+Initial Root Token: 18afbd22-1fbd-752f-238c-8f6d54f4c67c
+
+Vault initialized with 5 keys and a key threshold of 3. Please
+securely distribute the above keys. When the Vault is re-sealed,
+restarted, or stopped, you must provide at least 3 of these keys
+to unseal it again.
+
+Vault does not store the master key. Without at least 3 keys,
+your Vault will remain permanently sealed.

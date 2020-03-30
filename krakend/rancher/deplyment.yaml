@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rancher
+spec:
+  selector:
+    matchLabels:
+      app: rancher
+  template:
+    metadata:
+      labels:
+        app: rancher
+    spec:
+      containers:
+      - name: rancher
+        image: rancher/rancher
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 443
+          name: https
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rancher
+spec:
+  selector:
+    app: rencher
+  ports:
+  - port: 80
+    targetPort: 80
+  - port: 443
+    targetPort: 443

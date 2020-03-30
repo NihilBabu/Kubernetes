@@ -1,0 +1,3 @@
+cat >> sudo /etc/sysctl.d/kubernetes.conf<<EOF sudo net.bridge.bridge-nf-call-ip6tables = 1 sudo net.bridge.bridge-nf-call-iptables = 1 EOF 
+
+sudo sysctl --system

@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "extra_config": {
+    "github_com/devopsfaith/krakend-oauth2-clientcredentials": {
+      "endpoint_params": {},
+      "client_id": "SampleClientId",
+      "client_secret": "secret",
+      "token_url": "http://localhost:8081/auth/oauth/token"
+    }
+  },
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "name": "foo",
+  "endpoints": [
+    {
+      "endpoint": "/foo",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1
+    },
+    {
+      "endpoint": "/new-endpoint",
+      "method": "GET",
+      "extra_config": {}
+    }
+  ]
+}

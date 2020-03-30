@@ -1,0 +1,33 @@
+{
+    "version": 2,
+    "name": "KrakenD on k8s",
+    "port": 8080,
+    "cache_ttl": "3600s",
+    "timeout": "3s",
+    "host": ["https://jsonplaceholder.typicode.com"],
+    "endpoints": [
+
+        {
+            "endpoint": "/bar",
+            "backend": [{
+                "host": ["http://bar:3000"],
+                "url_pattern": "/__debug/debug"
+            }]
+        },
+        {
+            "endpoint": "/foo",
+            "backend": [{
+                "host": ["http://rancher:80"],
+                "url_pattern": "/__debug/debug"
+            }]
+        },
+        {
+            "endpoint": "/prom",
+            "backend": [{
+                "host": ["http://prometheus-server"],
+                "url_pattern": "/__debug/debug"
+            }]
+        }
+
+    ]
+}

@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        verion: prod
+    spec:
+      containers:
+      - name: frontend
+        image: nihilbabu/istiotest:1.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 3000
+        env:
+          - name: SERVICE_NAME
+            value: "frontend-prod"
+          - name: UPSTREAM_URI
+            value: "http://middleware/"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: middleware
+spec:
+  selector:
+    matchLabels:
+      app: middleware
+  template:
+    metadata:
+      labels:
+        app: middleware
+        version: prod
+    spec:
+      containers:
+      - name: middleware-prod
+        image: nihilbabu/istiotest:1.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 3000
+        env:
+          - name: SERVICE_NAME
+            value: "middleware-prod"
+          - name: UPSTREAM_URI
+            value: "http://backend/"
+    
+---
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: middleware-canary
+spec:
+  selector:
+    matchLabels:
+      app: middleware
+  template:
+    metadata:
+      labels:
+        app: middleware
+        version: canary
+    spec:
+      containers:
+      - name: middleware-canary
+        image: nihilbabu/istiotest:1.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 3000
+        env:
+          - name: SERVICE_NAME
+            value: "middleware-canary"
+          - name: UPSTREAM_URI
+            value: "http://backend/"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-prod
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: prod
+    spec:
+      containers:
+      - name: backend-prod
+        image: nihilbabu/istiotest:1.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 3000
+        env:
+          - name: SERVICE_NAME
+            value: "backend-prod"
+          - name: UPSTREAM_URI
+            value: "http://time.jsontest.com/"
